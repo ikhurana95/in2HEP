@@ -1,4 +1,4 @@
-# UCL High Energy Physics in2Science Summer School
+<h2 align = "center"> in2Science UCL Summer School  </h2>
 
 Welcome to the UCL High Energy Physics (HEP) Department.
 
