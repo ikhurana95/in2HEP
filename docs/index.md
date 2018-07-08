@@ -4,6 +4,11 @@ Welcome to the UCL High Energy Physics (HEP) Department.
 
 ** Add text about HEP at UCL**
 
+<body background="bgimage.jpg">
+<h1>Hello world!</h1>
+<p><a href="http://www.damtp.cam.ac.uk/research/hep/images/rhic.jpg">HEP!</a></p>
+</body>
+
 https://goo.gl/forms/i5Is9F6vpxpybp6l1
 
 ## in2HEP
