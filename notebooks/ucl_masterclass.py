@@ -451,7 +451,7 @@ def sensitivity_cut_based(df):
 
     # Initialise sensitivity and error.
     sens_sq = 0
-
+    bins = np.arange(20*1e3,260*1e3,20*1e3)
     #Split into signal and background events
     classes = df['Class']
     dec_vals = df['mBB']
@@ -465,7 +465,7 @@ def sensitivity_cut_based(df):
     #plots histogram with optimised bins and counts number of signal and background events in each bin
     plt.ioff()
     counts_sb = plt.hist(events_sb,
-                         bins=20,
+                         bins=bins,
                          weights=weights_sb)[0]
     plt.close()
     plt.ion()
@@ -494,6 +494,7 @@ def sensitivity_bdt(df):
 
     # Initialise sensitivity and error.
     sens_sq = 0
+    bins = np.arange(20*1e3,260*1e3,20*1e3)
 
     #Split into signal and background events
     classes = df['Class']
@@ -508,7 +509,7 @@ def sensitivity_bdt(df):
     #plots histogram with optimised bins and counts number of signal and background events in each bin
     plt.ioff()
     counts_sb = plt.hist(events_sb,
-                         bins=20,
+                         bins=bins,
                          weights=weights_sb)[0]
     plt.close()
     plt.ion()
