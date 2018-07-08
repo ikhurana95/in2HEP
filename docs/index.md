@@ -3,8 +3,9 @@
 
 
 <h2 align = 'center'> Welcome to the UCL High Energy Physics (HEP) Department. </h2>
+<h3 align = "center">   </h3>
 
-<img src="images/sm_lagrangian.png" width = "50%" align="centre">
+<img src="images/event.png" width = "50%" align="centre">
 
 
 UCL HEP is one of the largest groups in the country with research areas spanning: theory/phenomenology, detector, software and accelerator R&D and analysis of data from the LHC, dark matter and neutrino experiments.
