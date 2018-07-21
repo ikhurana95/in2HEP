@@ -25,7 +25,7 @@ To get started, download and unzip the resource file below:
 or using git from command line:
 
 ```
-git clone https://ishank95.github.io/in2HEP/
+git clone https://github.com/ishank95/in2HEP.git
 ```
 
 - The tutorials are in the form of Jupyter notebooks and we will be using Python 3 throughout the exercises. To open a Jupyter notebook, type _Jupyter_ in the start menu and hit enter.
