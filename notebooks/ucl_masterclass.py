@@ -49,7 +49,7 @@ legend_names = [r'VH $\rightarrow$ Vbb','Diboson',r"t$\bar t$",'Single top', 'W+
 
 
 def setBinCategory(df,bins):
-
+    #function is used to assign the bin of the histogram each event is added to after sensitivity scaling
     if len(bins)!=21:
         print ("ONLY SET FOR 20 BINS")
 
@@ -118,15 +118,8 @@ def bdt_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, 
         plot_weights.append(plot_weight_vals)
         plot_colors.append(colour_map[t])
 
-    # Plot.
-    if nJets == 2:
 
-        multiplier = 20
-    elif nJets == 3:
-        multiplier = 100
-
-    plt.plot([],[],color='#FF0000',label=r'VH $\rightarrow$ Vbb x '+str(multiplier))
-
+    #Plots the filled in histogram parts
     plt.hist(plot_data,
              bins=bins,
              weights=plot_weights,
@@ -137,10 +130,15 @@ def bdt_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, 
              stacked=True,
              edgecolor='none')
 
+    #Plots the additional line over the top for signal events
+    if nJets == 2:
+        multiplier = 20
+    elif nJets == 3:
+        multiplier = 100
+    
+    plt.plot([],[],color='#FF0000',label=r'VH $\rightarrow$ Vbb x '+str(multiplier))
+    
     df_sig = df.loc[df['Class']==1]
-
-
-
     plt.hist(df_sig['bin_scaled'].tolist(),
          bins=bins,
          weights=(df_sig['post_fit_weight']*multiplier).tolist(),
@@ -151,8 +149,9 @@ def bdt_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, 
          color='#FF0000',
          edgecolor='#FF0000')
 
+    #sets axis limits and labels
     x1, x2, y1, y2 = plt.axis()
-    plt.yscale('log', nonposy='clip')
+    plt.yscale('log', nonposy='clip')       #can comment out this line if log error stops plotting
     plt.axis((x1, x2, y1, y2 * 1.2))
     axes = plt.gca()
     axes.set_ylim([5,135000])
@@ -161,20 +160,19 @@ def bdt_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, 
     plt.xticks(x, x,fontweight = 'normal',fontsize = 20)
     y = [r"10",r"10$^{2}$",r"10$^{3}$",r"10$^{4}$",r"10$^{5}$"]
     yi = [10,100,1000,10000,100000]
-    plt.yticks(yi, y,fontweight = 'normal',fontsize = 20)
+    plt.yticks(yi, y,fontweight = 'normal',fontsize = 20)       #and this one 
 
+    #sets axis ticks
     axes.yaxis.set_ticks_position('both')
     axes.yaxis.set_tick_params(which='major', direction='in', length=10, width=1)
     axes.yaxis.set_tick_params(which='minor', direction='in', length=5, width=1)
-
     axes.xaxis.set_ticks_position('both')
     axes.xaxis.set_tick_params(which='major', direction='in', length=10, width=1)
     axes.xaxis.set_tick_params(which='minor', direction='in', length=5, width=1)
-
     axes.xaxis.set_minor_locator(AutoMinorLocator(4))
     handles, labels = axes.get_legend_handles_labels()
 
-    #Weird hack thing to get legend entries in correct order
+    #hack thing to get legend entries in correct order
     handles = handles[::-1]
     handles = handles+handles
     handles = handles[1:12]
@@ -182,18 +180,16 @@ def bdt_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, 
     plt.legend(loc='upper right', ncol=1, prop={'size': 12},frameon=False,
                handles=handles)
 
+    #axis titles and lables
     plt.ylabel("Events",fontsize = 20,fontweight='normal')
     axes.yaxis.set_label_coords(-0.07,0.93)
     plt.xlabel(r"BDT$_{VH}$ output",fontsize = 20,fontweight='normal')
     axes.xaxis.set_label_coords(0.89, -0.07)
     an1 = axes.annotate("ATLAS Internal", xy=(0.05, 0.91), xycoords=axes.transAxes,fontstyle = 'italic',fontsize = 16)
-
     offset_from = OffsetFrom(an1, (0, -1.4))
     an2 = axes.annotate(r'$\sqrt{s}$' + " = 13 TeV , 36.1 fb$^{-1}$", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from, fontweight='normal',fontsize = 12)
-
     offset_from = OffsetFrom(an2, (0, -1.4))
     an3 = axes.annotate("1 lepton, "+str(nJets)+" jets, 2 b-tags", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
-
     offset_from = OffsetFrom(an3, (0, -1.6))
     an4 = axes.annotate("p$^V_T \geq$ 150 GeV", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
 
@@ -251,15 +247,8 @@ def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = F
         plot_weights.append(plot_weight_vals)
         plot_colors.append(colour_map[t])
 
-    # Plot.
-    if nJets == 2:
 
-        multiplier = 20
-    elif nJets == 3:
-        multiplier = 100
-
-    plt.plot([],[],color='#FF0000',label=r'VH $\rightarrow$ Vbb x '+str(multiplier))
-
+    #Plots the filled in histogram parts
     plt.hist(plot_data,
              bins=bins,
              weights=plot_weights,
@@ -270,9 +259,16 @@ def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = F
              stacked=True,
              edgecolor='none')
 
+    #Plots the additional line over the top for signal events
     df_sig = df.loc[df['Class']==1]
-
-
+    # Plot.
+    if nJets == 2:
+        
+        multiplier = 20
+    elif nJets == 3:
+        multiplier = 100
+    
+    plt.plot([],[],color='#FF0000',label=r'VH $\rightarrow$ Vbb x '+str(multiplier))
 
     plt.hist(df_sig['bin_scaled'].tolist(),
          bins=bins,
@@ -284,8 +280,9 @@ def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = F
          color='#FF0000',
          edgecolor='#FF0000')
 
+    #sets axis limits and labels
     x1, x2, y1, y2 = plt.axis()
-    plt.yscale('log', nonposy='clip')
+    plt.yscale('log', nonposy='clip')   #can comment out this line if log error stops plotting
     plt.axis((x1, x2, y1, y2 * 1.2))
     axes = plt.gca()
     axes.set_ylim([5,135000])
@@ -294,8 +291,9 @@ def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = F
     plt.xticks(x, x,fontweight = 'normal',fontsize = 20)
     y = [r"10",r"10$^{2}$",r"10$^{3}$",r"10$^{4}$",r"10$^{5}$"]
     yi = [10,100,1000,10000,100000]
-    plt.yticks(yi, y,fontweight = 'normal',fontsize = 20)
+    plt.yticks(yi, y,fontweight = 'normal',fontsize = 20)   #and also this line
 
+    #sets axis ticks
     axes.yaxis.set_ticks_position('both')
     axes.yaxis.set_tick_params(which='major', direction='in', length=10, width=1)
     axes.yaxis.set_tick_params(which='minor', direction='in', length=5, width=1)
@@ -307,7 +305,8 @@ def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = F
     axes.xaxis.set_minor_locator(AutoMinorLocator(4))
     handles, labels = axes.get_legend_handles_labels()
 
-    #Weird hack thing to get legend entries in correct order
+
+    #Hack thing to get legend entries in correct order
     handles = handles[::-1]
     handles = handles+handles
     handles = handles[1:12]
@@ -315,6 +314,7 @@ def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = F
     plt.legend(loc='upper right', ncol=1, prop={'size': 12},frameon=False,
                handles=handles)
 
+    #axis titles and lables
     plt.ylabel("Events",fontsize = 20,fontweight='normal')
     axes.yaxis.set_label_coords(-0.07,0.93)
     plt.xlabel(r"BDT$_{VH}$ output",fontsize = 20,fontweight='normal')
@@ -329,6 +329,7 @@ def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = F
 
     offset_from = OffsetFrom(an3, (0, -1.6))
     an4 = axes.annotate("p$^V_T \geq$ 150 GeV", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
+
 
     plt.show(block=block)
 
