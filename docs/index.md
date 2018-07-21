@@ -1,5 +1,5 @@
 
-
+<img src="../notebooks/images/logo-black.png" width="50" align = 'right'/>
 
 
 <h2 align = 'center'> Welcome to the UCL High Energy Physics (HEP) Department. </h2>
@@ -12,9 +12,19 @@ UCL HEP is one of the largest groups in the country with research areas spanning
 
 
 
-## in2HEP
+## AI Masterclass
 
-For the next three days you will be learning about UCL HEP's involvement in cutting edge research into the fundamental fabric of the universe. This webpage will host resources, instructions and guides on some of the work you have done whilst at UCL.
+Welcome to the UCL Artificial Intelligence masterclass! The aim of today’s event is to give you a flavour of how AI and data science are being used by physicists to push the boundaries of experimental physics and help us better understand the fundamental fabric of the universe.
+
+You will hear from UCL and CERN physicist Dr Andy Bell about the Large Hadron Collider (LHC) and the data science techniques used in studies of the Higgs boson. We will then split up into groups of 5 and work with the PhD mentors to develop a cut-based Higgs analysis that does not use artificial intelligence techniques. 
+After this, The PhD mentors in your group will help you develop a neural network architecture to maximise the sensitivity to the Higgs signal found at the LHC. 
+
+At the end of the day the we will be awarding a prize for the best cut-based analysis and the best neural network architecture presented by the Head of the Physics & Astronomy department at UCL. 
+
+This is also an opportunity for you to meet university students and researchers. Throughout the day, feel free to ask any of us about anything related to university and we will do our best to answer your questions! 
+
+
+## Get Started
 
 To get started, download and unzip the resource file below:
 
@@ -29,6 +39,11 @@ git clone https://ishank95.github.io/in2HEP/
 
 - The tutorials are in the form of Jupyter notebooks and we will be using Python 3 throughout the exercises. To open a Jupyter notebook, type _Jupyter_ in the start menu and hit enter.
 
+Or from the command line, navigate to the resource folder and type:
+```
+jupyter notebook
+```
+
 #### Python Crash Course (optional)
 If you are not familiar with Python, please look at the Python Crash Course notebook first. If you are familiar with Python but have never used the pandas library before, it is worth looking at the _Introduction to Pandas_ section in the Crash Course notebook.
 
@@ -36,6 +51,8 @@ The easiest way to install Python on your own computers at home is to use the An
 
 
 #### Intro to HEP
+
+A set of introductory High Energy Physics notes relevant to the work in these tutorials is provided in the notes folder. These notes were produced with the help of Dr Andreas Korn and Dr Emily Nurse.
 
 #### Intro to Collider Physics and ATLAS
 
@@ -54,10 +71,6 @@ The notebook for this section is titled _ATLAS Cut-Based Analysis_.
 
 As promised, we will be extending the ATLAS analysis to one that includes machine learning techniques. Specifically, Boosted Decision Trees. We will learn how machine learning algorithms can improve our sensitivity to signal by maximising the information extracted from data.
 
-The notebook for this section is titled _ATLAS Machine Learning._.
+The notebook for this section is titled _ATLAS_NN._.
 
-### Dark Matter @ UCL
-
-Tomorrow you will be learning all about Dark Matter and UCL's involvement in the search for Dark Matter. If you are interested here is a talk by UCL Cosmologist Dr Andrew Pontzen given at the Royal Institution on Dark Matter and the Weirdness in the uninverse!
-
-https://www.youtube.com/watch?v=GFxPMMkhHuA&t=2121s
+**The resources for this event were produced by hackingEducation.**
