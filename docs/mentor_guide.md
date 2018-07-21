@@ -34,5 +34,4 @@ sudo pip install scikit-learn
 sudo pip install tensorflow
 sudo pip install keras
 sudo pip install pandas
-sudo pip install pickle
 ```
