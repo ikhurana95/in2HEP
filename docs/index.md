@@ -2,15 +2,8 @@
 <img src="images/logo-black.png" width="50" align = 'right'/>
 
 
-<h2 align = 'center'> Welcome to the UCL Physics & Astronomy AI Masterclass. </h2>
+<h2 align = 'center'>UCL Physics & Astronomy AI Masterclass. </h2>
 <h3 align = "center"> <img src="http://thescienceexplorer.com/sites/thescienceexplorer.com/files/artificial-intelligence-1_0.jpg" width = "50%" align="centre">  </h3>
-
-
-UCL HEP is one of the largest groups in the country with research areas spanning: theory/phenomenology, detector, software and accelerator R&D and analysis of data from the LHC, dark matter and neutrino experiments.
-
-
-
-## AI Masterclass
 
 Welcome to the UCL Artificial Intelligence masterclass! The aim of today’s event is to give you a flavour of how AI and data science are being used by physicists to push the boundaries of experimental physics and help us better understand the fundamental fabric of the universe.
 
@@ -32,7 +25,7 @@ To get started, download and unzip the resource file below:
 or using git from command line:
 
 ```
-git clone https://ishank95.github.io/in2HEP/
+git clone https://github.com/ishank95/in2HEP.git
 ```
 
 - The tutorials are in the form of Jupyter notebooks and we will be using Python 3 throughout the exercises. To open a Jupyter notebook, type _Jupyter_ in the start menu and hit enter.
