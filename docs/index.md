@@ -5,13 +5,6 @@
 <h2 align = 'center'>UCL Physics & Astronomy AI Masterclass. </h2>
 <h3 align = "center"> <img src="http://thescienceexplorer.com/sites/thescienceexplorer.com/files/artificial-intelligence-1_0.jpg" width = "50%" align="centre">  </h3>
 
-
-UCL HEP is one of the largest groups in the country with research areas spanning: theory/phenomenology, detector, software and accelerator R&D and analysis of data from the LHC, dark matter and neutrino experiments.
-
-
-
-## AI Masterclass
-
 Welcome to the UCL Artificial Intelligence masterclass! The aim of today’s event is to give you a flavour of how AI and data science are being used by physicists to push the boundaries of experimental physics and help us better understand the fundamental fabric of the universe.
 
 You will hear from UCL and CERN physicist Dr Andy Bell about the Large Hadron Collider (LHC) and the data science techniques used in studies of the Higgs boson. We will then split up into groups of 5 and work with the PhD mentors to develop a cut-based Higgs analysis that does not use artificial intelligence techniques. 
