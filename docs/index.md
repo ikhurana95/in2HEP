@@ -49,7 +49,7 @@ A set of introductory High Energy Physics notes relevant to the work in these tu
 
 Here are the slides for the talk you heard from CERN Physicist Dr Andrew bell.
 
-https://cernbox.cern.ch/index.php/s/oZm7hZDjiJY2h0g#pdfviewer
+http://www.hep.ucl.ac.uk/~bell/CDT/Outreach_210718.pdf
 
 #### ATLAS Cut-Based Analysis
 
