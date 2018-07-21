@@ -1,4 +1,4 @@
-## Data Science Masterclass Mentor Guide
+<h2 align = 'center'> Data Science Masterclass Mentor Guide <img src="../notebooks/images/logo-black.png" width="50" align = 'right'/> </h2>
 
 **Overview of the event.**
 
