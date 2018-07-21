@@ -30,6 +30,8 @@ Note to male PhD students: this will sound obvious but don't mansplain your fema
 
 ### Dependencies
 ```
+sudo pip install matplotlib
+sudo pip install scipy
 sudo pip install scikit-learn
 sudo pip install tensorflow
 sudo pip install keras
