@@ -1,5 +1,5 @@
 
-<img src="../notebooks/images/logo-black.png" width="50" align = 'right'/>
+<img src="images/logo-black.png" width="50" align = 'right'/>
 
 
 <h2 align = 'center'> Welcome to the UCL Physics & Astronomy AI Masterclass. </h2>
