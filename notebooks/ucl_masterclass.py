@@ -1,9 +1,5 @@
 import numpy as np
-# import cv2
-# from PIL import Image
 import time
-# from resizeimage import resizeimage
-# import imutils
 import pickle
 from copy import deepcopy
 import math
@@ -13,125 +9,6 @@ from matplotlib.ticker import AutoMinorLocator
 from mpl_toolkits.axes_grid.anchored_artists import AnchoredText
 from matplotlib.text import OffsetFrom
 
-#
-# def save_img(img,filePath = "number.pkl"):
-#     """
-#     Writes events to pickle file. Ideally dump few objects where the objects could be any data structures
-#     containing other objects
-#     :param events:
-#     :param filePath:
-#     """
-#     print("Writing...")
-#     if filePath[-3:]!="pkl":
-#         filePath = filePath+".pkl"
-#
-#     with open(filePath, "wb") as output:
-#
-#         pickle.dump(img, output, pickle.HIGHEST_PROTOCOL)
-#
-# def load(filePath,python2 = False):
-#     """
-#     Loads objects from pickle file
-#     :param filePath:
-#     :return: values in pickle file
-#     """
-#     load = []
-#     print("Loading...")
-#     with open(filePath, "rb") as file:
-#         hasNext = True
-#         if python2:
-#
-#             load.append(pickle.load(file))
-#         else:
-#             load.append(pickle.load(file, encoding='latin1'))
-#         while hasNext:
-#             try:
-#                 if python2:
-#                     load.append(pickle.load(file))
-#                 else:
-#                     load.append(pickle.load(file, encoding='latin1'))
-#             except:
-#                 hasNext = False
-#
-#     if len(load) == 1:
-#         return load[0]
-#     else:
-#         return load
-#
-#
-# def get_webcam_img():
-#
-#     """
-#     Creates an webcam image for the Handwritten Digit Classifier Project.
-#
-#     Uses cv2 python library to apply filters on captured image so that it can
-#     be processed by the neural network.
-#
-#     Saves a 28*28 black and white image.
-#
-#
-#     """
-#     cap = cv2.VideoCapture(0)
-#     fgbg = cv2.createBackgroundSubtractorMOG2()
-#
-#     while(True):
-#         # Capture frame-by-frame
-#         ret, frame = cap.read()
-#         # Our operations on the frame come here
-#         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Applies black and white filter
-#         gray = cv2.bilateralFilter(gray, 11, 17, 17)
-#
-#         # Applies edge detection filter
-#         edged = cv2.Canny(gray,75,180)
-#         fgmask = fgbg.apply(edged)
-#
-#         # Crops the recorded image
-#         w = 350
-#         h = 350
-#         x = int(gray.shape[1]/2 - w/2)
-#         y = int(gray.shape[0]/2 - h/2)
-#
-#         crop_img = gray[y:y+h, x:x+w]
-#         # Image displayed without edge detection
-#         cv2.imshow("Press SPACE to shoot", crop_img)
-#
-#         # Uncomment line below to demonstrate edge detection
-#         # cv2.imshow("Press SPACE to shoot", fgmask)
-#
-#
-#
-#         # Checks if space is pressed
-#         if cv2.waitKey(1) & 0xFF == ord(' ') or 0xFF == ord('\n'):
-#
-#             crop_img = fgmask[y:y+h, x:x+w]
-#
-#             kernel = np.ones((5,5),np.uint8)
-#             dilation = cv2.dilate(crop_img,kernel,iterations = 1)
-#             print(dilation.shape)
-#             gray = cv2.GaussianBlur(gray, (3, 3), 0)
-#             gray  = cv2.resize(dilation,None,fx=128/350, fy=128/350, interpolation = cv2.INTER_CUBIC)
-#             print(gray.shape)
-#
-#             gray = cv2.dilate(gray,kernel,iterations = 1)
-#             gray  = cv2.resize(gray,None,fx=28/128, fy=28/128, interpolation = cv2.INTER_CUBIC)
-#             gray = cv2.GaussianBlur(gray, (3, 3), 0)
-#             print(gray.shape)
-#
-#             cv2.imwrite('digit.png',gray)
-#
-#             # Saves image to a pickle file
-#             save_img(gray)
-#             break
-#
-#     # When everything done, release the capture
-#     cap.release()
-#     cv2.destroyAllWindows()
-#     for i in range (1,5):
-#         cv2.waitKey(1)
-#
-#     return gray
-#
-#
 
 ##########################
 #ATLAS Analysis Functions#
@@ -198,7 +75,140 @@ def bdt_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, 
     """Plots histogram decision score output of classifier"""
 
     nJets = df['nJ'].tolist()[1]
+    df['decision_value'] = ((list(df['decision_value'])-0.5)*2)
+    if trafoD_bins == True:
+        bins, arg2, arg3 = trafoD_with_error(df)
+        print(len(bins))
+    else:
+         bins = np.linspace(-1,1,bin_number+1)
 
+    # Initialise plot stuff
+    plt.ion()
+    plt.close("all")
+    fig = plt.figure(figsize=(8.5,7))
+    plot_range = (-1, 1)
+    plot_data = []
+    plot_weights = []
+    plot_colors = []
+    plt.rc('font', weight='bold')
+    plt.rc('xtick.major', size=5, pad=7)
+    plt.rc('xtick', labelsize=10)
+
+    plt.rcParams["font.weight"] = "bold"
+    plt.rcParams["axes.labelweight"] = "bold"
+    plt.rcParams["mathtext.default"] = "regular"
+
+    df = setBinCategory(df,bins)
+
+    decision_value_list = df['bin_scaled'].tolist()
+    post_fit_weight_list = df['post_fit_weight'].tolist()
+    sample_list = df['sample'].tolist()
+
+    # Get list of hists.
+    for t in class_names_grouped[::-1]:
+        class_names = class_names_map[t]
+        class_decision_vals = []
+        plot_weight_vals = []
+        for c in class_names:
+            for x in range(0,len(decision_value_list)):
+                if sample_list[x] == c:
+                    class_decision_vals.append(decision_value_list[x])
+                    plot_weight_vals.append(post_fit_weight_list[x])
+
+        plot_data.append(class_decision_vals)
+        plot_weights.append(plot_weight_vals)
+        plot_colors.append(colour_map[t])
+
+    # Plot.
+    if nJets == 2:
+
+        multiplier = 20
+    elif nJets == 3:
+        multiplier = 100
+
+    plt.plot([],[],color='#FF0000',label=r'VH $\rightarrow$ Vbb x '+str(multiplier))
+
+    plt.hist(plot_data,
+             bins=bins,
+             weights=plot_weights,
+             range=plot_range,
+             rwidth=1,
+             color=plot_colors,
+             label=legend_names[::-1],
+             stacked=True,
+             edgecolor='none')
+
+    df_sig = df.loc[df['Class']==1]
+
+
+
+    plt.hist(df_sig['bin_scaled'].tolist(),
+         bins=bins,
+         weights=(df_sig['post_fit_weight']*multiplier).tolist(),
+         range=plot_range,
+         rwidth=1,
+         histtype = 'step',
+         linewidth=2,
+         color='#FF0000',
+         edgecolor='#FF0000')
+
+    x1, x2, y1, y2 = plt.axis()
+    plt.yscale('log', nonposy='clip')
+    plt.axis((x1, x2, y1, y2 * 1.2))
+    axes = plt.gca()
+    axes.set_ylim([5,135000])
+    axes.set_xlim([-1,1])
+    x = [-1,-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8,1]
+    plt.xticks(x, x,fontweight = 'normal',fontsize = 20)
+    y = [r"10",r"10$^{2}$",r"10$^{3}$",r"10$^{4}$",r"10$^{5}$"]
+    yi = [10,100,1000,10000,100000]
+    plt.yticks(yi, y,fontweight = 'normal',fontsize = 20)
+
+    axes.yaxis.set_ticks_position('both')
+    axes.yaxis.set_tick_params(which='major', direction='in', length=10, width=1)
+    axes.yaxis.set_tick_params(which='minor', direction='in', length=5, width=1)
+
+    axes.xaxis.set_ticks_position('both')
+    axes.xaxis.set_tick_params(which='major', direction='in', length=10, width=1)
+    axes.xaxis.set_tick_params(which='minor', direction='in', length=5, width=1)
+
+    axes.xaxis.set_minor_locator(AutoMinorLocator(4))
+    handles, labels = axes.get_legend_handles_labels()
+
+    #Weird hack thing to get legend entries in correct order
+    handles = handles[::-1]
+    handles = handles+handles
+    handles = handles[1:12]
+
+    plt.legend(loc='upper right', ncol=1, prop={'size': 12},frameon=False,
+               handles=handles)
+
+    plt.ylabel("Events",fontsize = 20,fontweight='normal')
+    axes.yaxis.set_label_coords(-0.07,0.93)
+    plt.xlabel(r"BDT$_{VH}$ output",fontsize = 20,fontweight='normal')
+    axes.xaxis.set_label_coords(0.89, -0.07)
+    an1 = axes.annotate("ATLAS Internal", xy=(0.05, 0.91), xycoords=axes.transAxes,fontstyle = 'italic',fontsize = 16)
+
+    offset_from = OffsetFrom(an1, (0, -1.4))
+    an2 = axes.annotate(r'$\sqrt{s}$' + " = 13 TeV , 36.1 fb$^{-1}$", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from, fontweight='normal',fontsize = 12)
+
+    offset_from = OffsetFrom(an2, (0, -1.4))
+    an3 = axes.annotate("1 lepton, "+str(nJets)+" jets, 2 b-tags", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
+
+    offset_from = OffsetFrom(an3, (0, -1.6))
+    an4 = axes.annotate("p$^V_T \geq$ 150 GeV", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
+
+    plt.show(block=block)
+
+
+    return fig,axes
+
+
+def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, bin_number = 20):
+    """Plots histogram decision score output of classifier"""
+
+    nJets = df['nJ'].tolist()[1]
+    df['decision_value'] = ((df['decision_value']-0.5)*2)
     if trafoD_bins == True:
         bins, arg2, arg3 = trafoD_with_error(df)
         print(len(bins))
@@ -489,12 +499,100 @@ def sensitivity_cut_based(df):
 
 
 
-def sensitivity_bdt(df):
+# def sensitivity_bdt(df):
+#     """Calculate sensitivity from dataframe with error"""
+#
+#     # Initialise sensitivity and error.
+#     sens_sq = 0
+#     bins = 20
+#
+#     #Split into signal and background events
+#     classes = df['Class']
+#     dec_vals = df['decision_value']
+#     weights = df['EventWeight']
+#
+#     y_data = zip(classes, dec_vals, weights)
+#
+#     events_sb = [[a[1] for a in deepcopy(y_data) if a[0] == 1], [a[1] for a in deepcopy(y_data) if a[0] == 0]]
+#     weights_sb = [[a[2] for a in deepcopy(y_data) if a[0] == 1], [a[2] for a in deepcopy(y_data) if a[0] == 0]]
+#
+#     #plots histogram with optimised bins and counts number of signal and background events in each bin
+#     plt.ioff()
+#     counts_sb = plt.hist(events_sb,
+#                          bins=bins* ,
+#                          weights=weights_sb)[0]
+#     plt.close()
+#     plt.ion()
+#
+#     # Reverse the counts before calculating.
+#     # Zip up S, B, DS and DB per bin.
+#     s_stack = counts_sb[0][::-1]   #counts height of signal in each bin from +1 to -1
+#     b_stack = counts_sb[1][::-1]    #counts height of bkground in each bin from +1 to -1
+#
+#
+#     for s, b in zip(s_stack, b_stack): #iterates through every bin
+#         this_sens = 2 * ((s + b) * math.log(1 + s / b) - s) #calcs sensivity for each bin
+#         if not math.isnan(this_sens):   #unless bin empty add this_sense to sens_sq total (sums each bin sensitivity)
+#             sens_sq += this_sens
+#
+#
+#     # Sqrt operations and error equation balancing.
+#     sens = math.sqrt(sens_sq)
+#
+#     return sens
+
+#
+# def plot_heatmap(y_data,poisson_means):
+#
+#
+#     bins = np.arange(min(poisson_means),max(poisson_means)+7,1)
+#
+#     y_data_binned = []
+#     for data in y_data:
+#
+#         y_data_binned.append(np.histogram(data,bins = bins)[0])
+#
+#     y_data_binned = np.matrix(np.flip(y_data_binned,axis=1))
+#     df = pd.DataFrame(y_data_binned)
+#     df = df.set_index((means))
+#     bins = np.flip(bins,axis=0)
+#     bins = bins[1:]
+#
+#     df = df.T
+#     df = df.set_index(bins)
+#
+#     fig, ax = plt.subplots()
+#     fig.set_size_inches(20,8)
+#     xticks = np.arange(min(poisson_means),max(poisson_means)+1)
+#
+#     sns.heatmap(df,ax = ax, cmap="Oranges",xticklabels = xticks)
+#     ax.set(xlabel='Poisson Mean', ylabel='N Seen')
+#     xlim = ax.get_xlim()
+#     ax.set_xticks(np.linspace(xlim[0],xlim[1],max(poisson_means)- min(poisson_means)));
+#
+#
+#     return df
+#
+
+
+def get_row(df,poisson_means,row_number):
+    row = []
+    for i in poisson_means:
+
+        row+=[i]*df.loc[row_number][i]
+
+    return row
+
+
+
+def sensitivity_NN(df):
     """Calculate sensitivity from dataframe with error"""
+
+    bins, bin_sums_w2_s, bin_sums_w2_b = trafoD_with_error(df)
 
     # Initialise sensitivity and error.
     sens_sq = 0
-    bins = 20
+    error_sq = 0
 
     #Split into signal and background events
     classes = df['Class']
@@ -518,57 +616,110 @@ def sensitivity_bdt(df):
     # Zip up S, B, DS and DB per bin.
     s_stack = counts_sb[0][::-1]   #counts height of signal in each bin from +1 to -1
     b_stack = counts_sb[1][::-1]    #counts height of bkground in each bin from +1 to -1
+    ds_sq_stack = bin_sums_w2_s[::-1]
+    db_sq_stack = bin_sums_w2_b[::-1]
 
-
-    for s, b in zip(s_stack, b_stack): #iterates through every bin
+    for s, b, ds_sq, db_sq in zip(s_stack, b_stack, ds_sq_stack, db_sq_stack): #iterates through every bin
         this_sens = 2 * ((s + b) * math.log(1 + s / b) - s) #calcs sensivity for each bin
+        this_dsens_ds = 2 * math.log(1 + s/b)
+        this_dsens_db = 2 * (math.log(1 + s/b) - s/b)
+        this_error = (this_dsens_ds ** 2) * ds_sq + (this_dsens_db ** 2) * db_sq
         if not math.isnan(this_sens):   #unless bin empty add this_sense to sens_sq total (sums each bin sensitivity)
             sens_sq += this_sens
-
+        if not math.isnan(this_error):  #unless bin empty add this_error to error_sq total
+            error_sq += this_error
 
     # Sqrt operations and error equation balancing.
     sens = math.sqrt(sens_sq)
+    error = 0.5 * math.sqrt(error_sq/sens_sq)
 
-    return sens
-
-
-def plot_heatmap(y_data,poisson_means):
+    return sens, error
 
 
-    bins = np.arange(min(poisson_means),max(poisson_means)+7,1)
+def trafoD_with_error(df, initial_bins=1000, z_s=10, z_b=10): #total number of bins = z_s + z_b
+    """Output optimised histogram bin widths from a list of events"""
 
-    y_data_binned = []
-    for data in y_data:
+    df = df.sort_values(by='decision_value')
 
-        y_data_binned.append(np.histogram(data,bins = bins)[0])
-
-    y_data_binned = np.matrix(np.flip(y_data_binned,axis=1))
-    df = pd.DataFrame(y_data_binned)
-    df = df.set_index((means))
-    bins = np.flip(bins,axis=0)
-    bins = bins[1:]
-
-    df = df.T
-    df = df.set_index(bins)
-
-    fig, ax = plt.subplots()
-    fig.set_size_inches(20,8)
-    xticks = np.arange(min(poisson_means),max(poisson_means)+1)
-
-    sns.heatmap(df,ax = ax, cmap="Oranges",xticklabels = xticks)
-    ax.set(xlabel='Poisson Mean', ylabel='N Seen')
-    xlim = ax.get_xlim()
-    ax.set_xticks(np.linspace(xlim[0],xlim[1],max(poisson_means)- min(poisson_means)));
+    N_s = sum(df['post_fit_weight']*df['Class'])
+    N_b = sum(df['post_fit_weight']*(1-df['Class']))
 
 
-    return df
+    # Set up scan parameters.
+    scan_points = np.linspace(-1, 1, num=initial_bins).tolist()[1:-1]
+    scan_points = scan_points[::-1] #invert list
+
+    # Initialise z and bin list.
+    z = 0
+    bins = [1.0]
+    sum_w2_s = 0
+    sum_w2_b = 0
+    delta_bins_s = list()
+    delta_bins_b = list()
+
+    decision_values_list = df['decision_value'].tolist()
+    class_values_list = df['Class'].tolist()
+    post_fit_weights_values_list = df['post_fit_weight'].tolist()
+
+    try:
+        # Iterate over bin low edges in scan.
+        for p in scan_points:
+            # Initialise freq count for this bin
+            sig_bin = 0
+            back_bin = 0
+
+            # Current bin loop.
+            # Remember, events are in descending DV order.
+            while True:
+                """ This loop sums the post_fit_weight and p.f.w squared of signal and of background events contained in each of the initial bins"""
+                # End algo if no events left - update z and then IndexError
+
+                if not decision_values_list: #if not empty (NEVER CALLS THIS CODE)
+                    z += z_s * sig_bin / N_s + z_b * back_bin / N_b
+                    if z > 1:
+                        bins.insert(0, p)
+                        delta_bins_s.insert(0, sum_w2_s)
+                        delta_bins_b.insert(0, sum_w2_b)
+                    raise IndexError
 
 
+                # Break if DV not in bin. (i.e when finished scanning over each of the inital bins)
+                if decision_values_list[-1] < p:  #negative index counts from the right (i.e last object)
+                    break
 
-def get_row(df,poisson_means,row_number):
-    row = []
-    for i in poisson_means:
+                # Pop the event.
+                decison_val = decision_values_list.pop()
+                class_val = class_values_list.pop()
+                post_fit_weight_val = post_fit_weights_values_list.pop()
 
-        row+=[i]*df.loc[row_number][i]
+                # Add freq to S/B count, and the square to sums of w2.
+                if class_val == 1:
+                    sig_bin += post_fit_weight_val
+                    sum_w2_s += post_fit_weight_val ** 2
+                else:
+                    back_bin += post_fit_weight_val
+                    sum_w2_b += post_fit_weight_val ** 2
 
-    return row
+            # Update z for current bin.
+            z += z_s * sig_bin / N_s + z_b * back_bin / N_b   #10*(% of total signal + # of total background)
+
+            # Reset z and update bin
+            if z > 1:
+                bins.insert(0, p)
+                z = 0
+
+                # Update sum_w2 for this bin.
+                delta_bins_s.insert(0, sum_w2_s)
+                delta_bins_b.insert(0, sum_w2_b)
+                sum_w2_s = 0 #not sure why this is at the end and sig_bin/back_bin reset at the beginning
+                sum_w2_b = 0
+
+    except IndexError:
+        rewje = 0
+
+    finally:
+        bins.insert(0,-1.0)
+        delta_bins_s.insert(0, sum_w2_s)  #sum of signal event weights^2 for each bin
+        delta_bins_b.insert(0, sum_w2_b)  #sum of background event weights^2 for each bin
+        print("TrafoD",len(bins))
+        return bins, delta_bins_s, delta_bins_b
