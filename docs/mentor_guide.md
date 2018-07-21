@@ -1,13 +1,14 @@
-## Data Science Masterclass
-**Mentor Guide**
+## Data Science Masterclass Mentor Guide
 
-* Overview of the event. Logistics.
+**Overview of the event.**
 
 The task for the day is to develop the ATLAS H->bb analysis first using a cut based approach and then using a neural network. They will be completing the tasks on your machines using Jupyter Notebooks. There will be an introductory talk by ATLAS post-doc Andy Bell where he will give an overview of the Higgs to bb search at ATLAS. Then the students an hour on the cut based analysis
 
 The participating students will be split into groups of 5 to complete the tasks for the day.
 
-### Teaching Methods and Pedagogy
+At some point during the day you will be asked to tell the students about your work and research in your groups and take questions.
+
+**Teaching Methods and Pedagogy**
 
 We would like to encourage more young people from disadvantaged background to engage with physics. Crucial to this is to remember that not everyone will have had the same amount of exposure to physics or science generally. Not everyone will feel as comfortable asking questions and some students, especially female students, may not feel as confident in the groups. Our goal is to ensure they learn the material whilst addressing some of these issues that inhibit learning.
 
@@ -27,7 +28,11 @@ Give them opportunities to ask questions throughout and try to engage in a dialo
 
 Note to male PhD students: this will sound obvious but don't mansplain your female peers' work to the students.
 
-* Getting the resources.
-
-* Dependencies.
-* Further reading.
+### Dependencies
+```
+sudo pip install scikit-learn
+sudo pip install tensorflow
+sudo pip install keras
+sudo pip install pandas
+sudo pip install pickle
+```
