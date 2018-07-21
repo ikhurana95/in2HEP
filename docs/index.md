@@ -2,10 +2,8 @@
 <img src="../notebooks/images/logo-black.png" width="50" align = 'right'/>
 
 
-<h2 align = 'center'> Welcome to the UCL High Energy Physics (HEP) Department. </h2>
-<h3 align = "center"> <img src="images/event.png" width = "50%" align="centre">  </h3>
-
-
+<h2 align = 'center'> Welcome to the UCL Physics & Astronomy AI Masterclass. </h2>
+<h3 align = "center"> <img src="http://thescienceexplorer.com/sites/thescienceexplorer.com/files/artificial-intelligence-1_0.jpg" width = "50%" align="centre">  </h3>
 
 
 UCL HEP is one of the largest groups in the country with research areas spanning: theory/phenomenology, detector, software and accelerator R&D and analysis of data from the LHC, dark matter and neutrino experiments.
