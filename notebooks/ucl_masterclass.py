@@ -5,7 +5,7 @@ import math
 import matplotlib.pyplot as plt
 
 from matplotlib.ticker import AutoMinorLocator
-from mpl_toolkits.axes_grid.anchored_artists import AnchoredText
+from mpl_toolkits.axes_gridl.anchored_artists import AnchoredText
 from matplotlib.text import OffsetFrom
 
 
@@ -74,7 +74,7 @@ def bdt_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, 
     """Plots histogram decision score output of classifier"""
 
     nJets = df['nJ'].tolist()[1]
-    df['decision_value'] = (df['decision_value']-0.5)*2)
+    df['decision_value'] = ((df['decision_value']-0.5)*2)
     if trafoD_bins == True:
         bins, arg2, arg3 = trafoD_with_error(df)
         print(len(bins))
