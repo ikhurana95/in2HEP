@@ -3,3 +3,4 @@
 *.DS_Store
 *.pyc
 notebooks/.ipynb_checkpoints/Python Crash Course -checkpoint.ipynb
+*.pyc
