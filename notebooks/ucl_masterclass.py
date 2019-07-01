@@ -488,6 +488,7 @@ def sensitivity_cut_based(df):
 
     for s, b in zip(s_stack, b_stack): #iterates through every bin
         this_sens = 2 * ((s + b) * math.log(1 + s / b) - s) #calcs sensivity for each bin
+
         if not math.isnan(this_sens):   #unless bin empty add this_sense to sens_sq total (sums each bin sensitivity)
             sens_sq += this_sens
 
