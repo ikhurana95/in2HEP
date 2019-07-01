@@ -5,7 +5,7 @@ import math
 import matplotlib.pyplot as plt
 
 from matplotlib.ticker import AutoMinorLocator
-from mpl_toolkits.axes_gridl.anchored_artists import AnchoredText
+from matplotlib.offsetbox import AnchoredText
 from matplotlib.text import OffsetFrom
 
 
