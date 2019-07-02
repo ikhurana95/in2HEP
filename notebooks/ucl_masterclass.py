@@ -5,15 +5,13 @@ import math
 import matplotlib.pyplot as plt
 
 from matplotlib.ticker import AutoMinorLocator
-from mpl_toolkits.axes_grid.anchored_artists import AnchoredText
+from matplotlib.offsetbox import AnchoredText
 from matplotlib.text import OffsetFrom
 
 
 ##########################
 #ATLAS Analysis Functions#
 ##########################
-
-
 
 class_names_grouped = ['VH -> Vbb','Diboson','ttbar','Single top', 'W+(bb,bc,cc,bl)','W+cl','W+ll','Z+(bb,bc,cc,bl)',
                        'Z+cl','Z+ll'
@@ -74,7 +72,7 @@ def bdt_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, 
     """Plots histogram decision score output of classifier"""
 
     nJets = df['nJ'].tolist()[1]
-    df['decision_value'] = ((list(df['decision_value'])-0.5)*2)
+    df['decision_value'] = ((df['decision_value']-0.5)*2)
     if trafoD_bins == True:
         bins, arg2, arg3 = trafoD_with_error(df)
         print(len(bins))
@@ -185,13 +183,13 @@ def bdt_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = False, 
     axes.yaxis.set_label_coords(-0.07,0.93)
     plt.xlabel(r"BDT$_{VH}$ output",fontsize = 20,fontweight='normal')
     axes.xaxis.set_label_coords(0.89, -0.07)
-    an1 = axes.annotate("ATLAS Internal", xy=(0.05, 0.91), xycoords=axes.transAxes,fontstyle = 'italic',fontsize = 16)
+    an1 = axes.annotate("ATLAS Internal", xy=(0.05, 0.91), xytext=(0.05, 0.91), xycoords=axes.transAxes,fontstyle = 'italic',fontsize = 16)
     offset_from = OffsetFrom(an1, (0, -1.4))
-    an2 = axes.annotate(r'$\sqrt{s}$' + " = 13 TeV , 36.1 fb$^{-1}$", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from, fontweight='normal',fontsize = 12)
+    an2 = axes.annotate(r'$\sqrt{s}$' + " = 13 TeV , 36.1 fb$^{-1}$", xy=(0.05,0.91), xytext=(0.05, 0.91), xycoords=axes.transAxes, textcoords=offset_from, fontweight='normal',fontsize = 12)
     offset_from = OffsetFrom(an2, (0, -1.4))
-    an3 = axes.annotate("1 lepton, "+str(nJets)+" jets, 2 b-tags", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
+    an3 = axes.annotate("1 lepton, "+str(nJets)+" jets, 2 b-tags", xy=(0.05,0.91), xytext=(0.05, 0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
     offset_from = OffsetFrom(an3, (0, -1.6))
-    an4 = axes.annotate("p$^V_T \geq$ 150 GeV", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
+    an4 = axes.annotate("p$^V_T \geq$ 150 GeV", xy=(0.05,0.91), xytext=(0.05, 0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
 
     plt.show(block=block)
 
@@ -283,6 +281,7 @@ def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = F
     #sets axis limits and labels
     x1, x2, y1, y2 = plt.axis()
     plt.yscale('log', nonposy='clip')   #can comment out this line if log error stops plotting
+    y1 = 5 # make sure we don't set a non-positive y axis lim
     plt.axis((x1, x2, y1, y2 * 1.2))
     axes = plt.gca()
     axes.set_ylim([5,135000])
@@ -319,16 +318,16 @@ def nn_output_plot(df,z_s = 10,z_b = 10,show=False, block=False, trafoD_bins = F
     axes.yaxis.set_label_coords(-0.07,0.93)
     plt.xlabel(r"BDT$_{VH}$ output",fontsize = 20,fontweight='normal')
     axes.xaxis.set_label_coords(0.89, -0.07)
-    an1 = axes.annotate("ATLAS Internal", xy=(0.05, 0.91), xycoords=axes.transAxes,fontstyle = 'italic',fontsize = 16)
+    an1 = axes.annotate("ATLAS Internal", xy=(0.05, 0.91), xytext=(0.05, 0.91), xycoords=axes.transAxes,fontstyle = 'italic',fontsize = 16)
 
     offset_from = OffsetFrom(an1, (0, -1.4))
-    an2 = axes.annotate(r'$\sqrt{s}$' + " = 13 TeV , 36.1 fb$^{-1}$", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from, fontweight='normal',fontsize = 12)
+    an2 = axes.annotate(r'$\sqrt{s}$' + " = 13 TeV , 36.1 fb$^{-1}$", xy=(0.05,0.91), xytext=(0.05, 0.91), xycoords=axes.transAxes, textcoords=offset_from, fontweight='normal',fontsize = 12)
 
     offset_from = OffsetFrom(an2, (0, -1.4))
-    an3 = axes.annotate("1 lepton, "+str(nJets)+" jets, 2 b-tags", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
+    an3 = axes.annotate("1 lepton, "+str(nJets)+" jets, 2 b-tags", xy=(0.05,0.91), xytext=(0.05, 0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
 
     offset_from = OffsetFrom(an3, (0, -1.6))
-    an4 = axes.annotate("p$^V_T \geq$ 150 GeV", xy=(0.05,0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
+    an4 = axes.annotate("p$^V_T \geq$ 150 GeV", xy=(0.05,0.91), xytext=(0.05, 0.91), xycoords=axes.transAxes, textcoords=offset_from,fontstyle = 'italic',fontsize = 12)
 
 
     plt.show(block=block)
@@ -488,6 +487,7 @@ def sensitivity_cut_based(df):
 
     for s, b in zip(s_stack, b_stack): #iterates through every bin
         this_sens = 2 * ((s + b) * math.log(1 + s / b) - s) #calcs sensivity for each bin
+
         if not math.isnan(this_sens):   #unless bin empty add this_sense to sens_sq total (sums each bin sensitivity)
             sens_sq += this_sens
 
@@ -620,14 +620,15 @@ def sensitivity_NN(df):
     db_sq_stack = bin_sums_w2_b[::-1]
 
     for s, b, ds_sq, db_sq in zip(s_stack, b_stack, ds_sq_stack, db_sq_stack): #iterates through every bin
-        this_sens = 2 * ((s + b) * math.log(1 + s / b) - s) #calcs sensivity for each bin
-        this_dsens_ds = 2 * math.log(1 + s/b)
-        this_dsens_db = 2 * (math.log(1 + s/b) - s/b)
-        this_error = (this_dsens_ds ** 2) * ds_sq + (this_dsens_db ** 2) * db_sq
-        if not math.isnan(this_sens):   #unless bin empty add this_sense to sens_sq total (sums each bin sensitivity)
-            sens_sq += this_sens
-        if not math.isnan(this_error):  #unless bin empty add this_error to error_sq total
-            error_sq += this_error
+        if b != 0:
+            this_sens = 2 * ((s + b) * math.log(1 + s / b) - s) #calcs sensivity for each bin
+            this_dsens_ds = 2 * math.log(1 + s/b)
+            this_dsens_db = 2 * (math.log(1 + s/b) - s/b)
+            this_error = (this_dsens_ds ** 2) * ds_sq + (this_dsens_db ** 2) * db_sq
+            if not math.isnan(this_sens):   #unless bin empty add this_sense to sens_sq total (sums each bin sensitivity)
+                sens_sq += this_sens
+            if not math.isnan(this_error):  #unless bin empty add this_error to error_sq total
+                error_sq += this_error
 
     # Sqrt operations and error equation balancing.
     sens = math.sqrt(sens_sq)
