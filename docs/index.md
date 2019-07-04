@@ -57,8 +57,8 @@ The notebook for this section is titled _ATLAS Cut-Based Analysis_.
 
 ### ATLAS Machine Learning
 
-As promised, we will be extending the ATLAS analysis to one that includes machine learning techniques. Specifically, Boosted Decision Trees. We will learn how machine learning algorithms can improve our sensitivity to signal by maximising the information extracted from data.
+As promised, we will be extending the ATLAS analysis to one that includes machine learning techniques. Specifically, Neural Networks. We will learn how machine learning algorithms can improve our sensitivity to signal by maximising the information extracted from data.
 
-The notebook for this section is titled _ATLAS_NN._.
+The notebook for this section is titled _ATLAS_NN_.
 
 **The resources for this event were produced by hackingEducation.**
