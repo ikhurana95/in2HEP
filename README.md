@@ -8,7 +8,9 @@ The repository can be downloaded as a zip [here](https://github.com/ishank95/in2
 5. Type `jupyter notebook`.
 6. The exercises are stored inside the `notebooks` folder.
 
-For the final NN based exercise, you can use a Google [Colab notebook](https://colab.research.google.com/drive/1wirVz17sY2pWAtfbV3Hxm7aihHtSgvRJ)
+For the final NN based exercise, you can use a Google [Colab notebook](https://colab.research.google.com/drive/1wirVz17sY2pWAtfbV3Hxm7aihHtSgvRJ).
+
+Intro slides can be found [here](http://svanstro.web.cern.ch/svanstro/in2hep/in2Hep-outline.pdf).
 
 ## If you are stuck...
 
